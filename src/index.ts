@@ -13,7 +13,7 @@ async function load() {
         from: "inline",
         config: {
           serverMode: "full",
-          url: "/r6014.sqlite3",
+          url: "/dist/r6014.sqlite3",
           requestChunkSize: 4096,
         },
       },
