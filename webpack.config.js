@@ -13,6 +13,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
+    path: path.resolve(__dirname, 'dist'),
     filename: "bundle.js",
   },
   devServer: {
