@@ -1,0 +1,13 @@
+{
+  "scripts":{"dev": "./node_modules/.bin/webpack --mode=development && ./node_modules/.bin/http-server"},
+  "dependencies": {
+    "sql.js-httpvfs": "^0.8.8"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.3",
+    "ts-loader": "^9.1.2",
+    "typescript": "^4.2.4",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.7.0"
+  }
+}
