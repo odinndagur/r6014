@@ -1,4 +1,5 @@
 import { createDbWorker } from "sql.js-httpvfs";
+import './registerServiceWorker'
 
 const workerUrl = new URL(
   "sql.js-httpvfs/dist/sqlite.worker.js",
@@ -6,6 +7,13 @@ const workerUrl = new URL(
 );
 const wasmUrl = new URL("sql.js-httpvfs/dist/sql-wasm.wasm", import.meta.url);
 
+let db_url
+if (process.env.NODE_ENV === 'production') {
+  db_url = "/r6014/r6014.sqlite3"
+}
+else {
+  db_url = "/r6014.sqlite3"
+}
 async function load() {
   const worker = await createDbWorker(
     [
@@ -13,7 +21,9 @@ async function load() {
         from: "inline",
         config: {
           serverMode: "full",
-          url: "/r6014/r6014.sqlite3",
+          // url: "/r6014/r6014.sqlite3",
+          // url: "/r6014.sqlite3",
+          url: db_url,
           requestChunkSize: 4096,
         },
       },

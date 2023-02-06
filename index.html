@@ -1,37 +1,60 @@
 <!DOCTYPE html>
 
 <head>
-  <title>Minimal sql.js-httpvfs demo</title>
-  <script src="./dist/bundle.js"></script>
+  <title>R6014</title>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <meta name="theme-color" content="#14181c"/>
+  <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="white"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="R6014">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="manifest" href="manifest.json"/>
+  <script async defer src="./dist/bundle.js"></script>
 </head>
 
 <body>
   <div id="json" style="display: none;"></div>
 
 
-  <form id="sql-form">
+  <form id="sql-text-form">
     <input type="text" name="" id="sql-input">
+  </form>
+  <form id="sql-option-form">
+    <button type="submit">Submit</button>
   </form>
   <div id="sql-result">
   </div>
 </body>
 
-<script>
-  if (!String.prototype.trim) {
-  String.prototype.trim = function () {
-    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
-  };
-}
-  document.getElementById("sql-form").addEventListener("submit", function(event){
+<script async defer>
+  document.getElementById("sql-text-form").addEventListener("submit", function(event){
   event.preventDefault()
-  executeSql()
+  executeSql("text")
 }); 
-  async function executeSql(){
-    inp = document.getElementById('sql-input')
+
+document.getElementById("sql-option-form").addEventListener("submit", function(event){
+  event.preventDefault()
+  executeSql("option")
+}); 
+
+function get_text_from_selector(select_element){
+  for(let option of select_element.options){
+    if(option.value === select_element.value){
+      return option.text;
+    }
+  }
+}
+  async function executeSql(option){
     res = document.getElementById('sql-result')
-    outp = await window.db.query(inp.value)
-    // res.textContent = JSON.stringify(outp)
-    table_headers = Object.entries(outp[0]).map(([key, value]) => {
+
+    if(option == "text"){
+      inp = document.getElementById('sql-input')
+      outp = await window.db.query(inp.value)
+      table_headers = Object.entries(outp[0]).map(([key, value]) => {
       return `<th>${key}</th>`
     }).join('')
     
@@ -42,12 +65,94 @@
     }).join('')
     res.innerHTML = `
     <table>
-      <tr>
       ${table_headers}
-      </tr>
       ${table_rows}
     </table>`
+    }
+    if(option == "option"){
+      let id1 = String(document.querySelector('#id1').value)
+      let name1 = get_text_from_selector(document.querySelector('#id1'))
+      let id2 = String(document.querySelector('#id2').value)
+      let name2 = get_text_from_selector(document.querySelector('#id2'))
+      outp = await window.db.query(`
+      select person.name as Name,
+      album.released as Year,
+      album.title as Album,
+      band.name as Band
+      from person
+      join album_member on album_member.member_id = person.id
+      join album on album_member.album_id = album.id
+      join band on album.band_id = band.id
+      where person.id in (${id1},${id2})
+      order by Year
+      `)
+
+      let albums = outp.map(album => {
+      return `
+      ${album['Album']}
+      `
+    })
+
+    let album_rows = []
+    for(let i = 0; i < albums.length-3; i+=3){
+      album_rows.push(
+        `<tr>
+          <td>${i/3 + 2010}</td>
+          <td>${albums[i]}</td>
+          <td>${albums[i+1]}</td>
+          <td>${albums[i+2]}</td>
+        </tr>`
+      )
+    }
+
+    res.innerHTML = `
+    <table>
+      <tr>
+        <th>Year</th>
+        <th>${name1}</th>
+        <th>Saman</th>
+        <th>${name2}</th>
+      </tr>
+      ${album_rows.join('')}
+    </table>
+    `
+    }
+    
   }
+
+  async function getPpl(){
+    if(!window.db){
+      setTimeout(getPpl,1000)
+    }
+    if(window.db){
+      let ppl = await window.db.query('select name, id from person')
+      let el = document.createElement('select')
+      el.id = 'id1'
+      el.innerHTML = Object.entries(ppl).map(([key, value]) => {
+      return `<option value="${value['id']}">${value['name']}</option>`
+    }).join('')
+      // el.innerHTML = ppl.map(([name, id]) => {
+      //   return '<li>' + name + '</li>'
+      // })
+      let parentElement = document.querySelector('#sql-option-form')
+      parentElement.appendChild(el)
+
+      let el2 = document.createElement('select')
+      el2.id = 'id2'
+      el2.innerHTML = Object.entries(ppl).map(([key, value]) => {
+      return `<option value="${value['id']}">${value['name']}</option>`
+    }).join('')
+      // el.innerHTML = ppl.map(([name, id]) => {
+      //   return '<li>' + name + '</li>'
+      // })
+      parentElement.appendChild(el2)
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', ev => {
+    setTimeout(getPpl,1000)
+    // getPpl()
+  })
 </script>
 
 <style>
@@ -82,6 +187,11 @@ table tr {
 table tr.header, table tr:hover {
   /* Add a grey background color to the table header and on hover */
   background-color: #f1f1f1;
+}
+
+select {
+  max-width: 15rem;
+  margin: 0 1rem;
 }
 </style>
 
