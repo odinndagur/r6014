@@ -3,7 +3,6 @@
     "dev": "./node_modules/.bin/webpack --mode=development && ./node_modules/.bin/http-server"
   },
   "dependencies": {
-    "register-service-worker": "^1.7.2",
     "sql.js-httpvfs": "^0.8.8"
   },
   "devDependencies": {
