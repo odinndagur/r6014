@@ -7,13 +7,13 @@ const workerUrl = new URL(
 );
 const wasmUrl = new URL("sql.js-httpvfs/dist/sql-wasm.wasm", import.meta.url);
 
-let db_url
-if (process.env.NODE_ENV === 'production') {
-  db_url = "/r6014/r6014-fts.sqlite3"
-}
-else {
-  db_url = "/r6014-fts.sqlite3"
-}
+let db_url = "/r6014/r6014-fts.sqlite3"
+// if (process.env.NODE_ENV === 'production') {
+//   db_url = "/r6014/r6014-fts.sqlite3"
+// }
+// else {
+//   db_url = "/r6014-fts.sqlite3"
+// }
 async function load() {
   const worker = await createDbWorker(
     [
