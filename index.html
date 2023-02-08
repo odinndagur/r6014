@@ -29,15 +29,6 @@
   
 </body>
 
-<script type="module">
-  import { load } from "./dist/sql-httpvfs.js";
-  window.loadDB = load
-
-  window.loadDB('./r6014-fts.sqlite3').then(db => {
-    window.db = db.db
-  })
-</script>
-
 <style>
 
 @media screen and (max-width: 767px) {
@@ -169,6 +160,15 @@ footer{
     window.db = db.db
   })
 </script> -->
+
+<script type="module">
+  import { load } from "./dist/sql-httpvfs.js";
+  window.loadDB = load
+
+  window.loadDB('./r6014-fts.sqlite3').then(db => {
+    window.db = db.db
+  })
+</script>
 
 <script async defer>
 let searchLastUpdate = 0;
