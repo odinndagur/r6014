@@ -13,18 +13,20 @@
   <div class="container">
     <header class="header">
         <div id="heading">shows</div>
+        <div id="video-search">
+        <input type="text" oninput="updateSearch()" onsubmit="updateSearch()" id="search-input">
+        </div>
       </header>
 
     <div class="body">
-
+      <div class="videos"></div>
+      <div class="current-video"></div>
     </div>
-
-
 
     <footer>
       <nav>
-        <a href="/">home</a>
-        <a href="shows.html" class="current-navitem">shows</a>
+        <a href="/" class="current-navitem">home</a>
+        <a href="shows.html">shows</a>
         <a href="artists.html">artists</a>        
       </nav>
     </footer>
@@ -63,7 +65,8 @@ header {
 
 .body{
     flex-grow: 1;
-    overflow: auto;
+    overflow: scroll;
+    max-height: 70vh;
     min-height: 2em;
     width: 80%;
     margin: auto;
@@ -72,26 +75,10 @@ header {
 }
 
 footer{
+  margin-top: 1rem;
     flex-shrink: 0;
 }
 
-footer > nav {
-  text-align: center;
-  margin: auto;
-}
-
-footer > nav > a {
-  font-size: 1.5rem;
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-  padding: 0 1rem;
-}
-
-.current-navitem {
-  text-decoration: underline;
-  font-style: italic;
-}
 .body::-webkit-scrollbar {
   display: none;
 }
@@ -168,6 +155,28 @@ footer > nav > a {
   height: 1.5rem;
   padding: 0.5rem;
 
+}
+
+footer{
+    flex-shrink: 0;
+}
+
+footer > nav {
+  text-align: center;
+  margin: auto;
+}
+
+footer > nav > a {
+  font-size: 1.5rem;
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+  padding: 0 1rem;
+}
+
+.current-navitem {
+  text-decoration: underline;
+  font-style: italic;
 }
 </style>
 
