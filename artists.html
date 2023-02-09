@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='https://fonts.googleapis.com/css?family=Faustina' rel='stylesheet'>
+  <link rel="stylesheet" href="style.css">
   <script async defer src="./dist/bundle.js"></script>
   <title>Artists</title>
 </head>
@@ -16,221 +17,26 @@
         <div id="artist-search">
         <input type="text" oninput="updateSearch()" onsubmit="updateSearch()" id="search-input">
         </div>
+        <nav>
+          <a href="./">home</a>
+          <a href="shows.html">shows</a>
+          <a href="artists.html" class="current-navitem">artists</a>        
+        </nav>
       </header>
 
     <div class="body">
       <div class="artists"></div>
     </div>
 
-    <footer>
-      <nav>
-        <a href="/r6014/">home</a>
-        <a href="shows.html">shows</a>
-        <a href="artists.html" class="current-navitem">artists</a>        
-      </nav>
-    </footer>
+
   </div>
 
   
 </body>
 
 
-<style>
-  @media screen and (max-width: 767px) {
-  input, select, textarea {
-    font-size: 16px;
-  }
-  footer {
-    position: absolute;
-    bottom: 0px;
-    padding: 1rem 0;
-    width: 100%;
-  }
-}
-  html, body {
-    margin: 0;
-    padding: 0;
-    max-width: 100vw;
-    max-height:100vh;
-    /* background-color: #fff; */
-  }
 
-  .container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-}
+<script type="module" src="initDB.js"></script>
 
-header {
-    flex-shrink: 0;
-    padding: 2rem 1rem;
-}
-
-.body{
-    flex-grow: 1;
-    overflow: auto;
-    min-height: 2em;
-    width: 80%;
-    margin: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
-footer{
-    flex-shrink: 0;
-}
-
-footer > nav {
-  text-align: center;
-  margin: auto;
-}
-
-footer > nav > a {
-  font-size: 1.5rem;
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-  padding: 0 1rem;
-}
-
-.current-navitem {
-  text-decoration: underline;
-  font-style: italic;
-}
-.body::-webkit-scrollbar {
-  display: none;
-}
-
-.video {
-  font-family: 'Optima';
-  /* max-height: 200px; */
-  max-width: 500px;
-  display: block;
-  margin: auto;
-  /* align-items:flex-start; */
-  padding: 0.5rem;
-}
-
-.current-video {
-  position:absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20%;
-  right: 20%;
-
-  /* top: 10rem; */
-  display: inline-flex;
-}
-
-.video>a>img {
-  max-width: 25%;
-  /* display: inline-block;
-  padding:0.2rem; */
-  /* float: left; */
-}
-
-.video>a{
-  max-width: 100%;
-}
-
-.video>.video-text {
-  display: inline-block;
-  text-align: left;
-  padding-bottom: 1rem;
-  color: #000;
-}
-
-.video-band {
-  font-weight: bold;
-}
-
-.video-date {
-  font-style: italic;
-}
-
-#heading {
-  text-align: center;
-  /* color: rgba(255,255,255,0.9); */
-  color:#000;
-  font-family: 'Faustina';
-  font-size: 30pt;
-  font-style: italic;
-  font-weight:100;
-}
-
-#video-search {
-  /* position: absolute;
-  bottom: 4rem; */
-  width: 80%;
-  margin: auto;
-  text-align: center;
-  padding-bottom: 1rem;
-}
-
-#video-search input {
-  border-radius: 1rem;
-  width: 80%;
-  height: 1.5rem;
-  padding: 0.5rem;
-
-}
-</style>
-
-
-
-<!-- <script type="module">
-  import { load } from "./dist/sql-httpvfs.js";
-  window.loadDB = load
-
-  window.loadDB('/r6014search/r6014-fts.sqlite3').then(db => {
-    window.db = db.db
-  })
-</script> -->
-
-<script async defer>
-let searchLastUpdate = 0;
-let targetMaxInterval = 150;
-
-async function updateSearch(){
-  if(!window.db){
-    setTimeout(updateSearch,150)
-    return
-  }
-  let inp = document.querySelector('#search-input')
-  let searchValue = inp.value
-  if(true){
-      searchValue = searchValue + "*"
-  }
-  let query
-  if(inp.value == ""){
-    query = `select name from person order by name desc`
-  }
-  else {
-    query = `select name from person where name like "%${searchValue}%" order by name desc`
-  }
-
-  people = await window.db.query(query)
-  artistEl = document.querySelector('.artists')
-  artistEl.innerHTML = ''
-  for(let artist of artists){
-    let el = document.createElement('div')
-    el.classList.add('artist')
-    el.innerHTML = `    
-      <span class="video-date">${artist.name}</span>
-    `
-    artistEl.appendChild(el)
-  }
-
-  // let current_video_el = document.querySelector('.current-video')
-  // let el = document.createElement('iframe')
-  // video_id = videos[0].video_url.split('?v=')[1]
-  // el.src = `https://www.youtube.com/embed/${video_id}`
-  // current_video_el.appendChild(el)
-  // searchLastUpdate = Date.now()
-  // setTimeout(updateSearch(inp),150)
-}
-
-</script>
+<script async defer src="artists.js"></script>
 </html>
