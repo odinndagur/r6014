@@ -7,9 +7,7 @@
   <link href='https://fonts.googleapis.com/css?family=Faustina' rel='stylesheet'>
   <link rel="stylesheet" href="style.css">
   <title>R6014</title>
-  <link rel="stylesheet" href="vanilla-calendar/vanilla-calendar.min.css" />
-  <script src=" https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js "></script></head>
-<body>
+  <body>
 
   <div class="container">
     <header class="header">
@@ -19,11 +17,19 @@
           <a href="shows.html">shows</a>
           <a href="artists.html">artists</a>        
         </nav>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@0.15.3/event-calendar.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@0.15.3/event-calendar.min.js"></script>
       </header>
 
     <div class="body">
-     
-      <div id="calendar"></div>
+
+
+      <iframe id="ytplayer" type="text/html" width="640" height="360"
+  src="http://www.youtube.com/embed/75MiNrJyx90-VE?autoplay=1&origin=http://odinndagur.github.io/r6014"
+  frameborder="0"></iframe>
+     <div class="calendar-parent">
+       <div id="calendar"></div>
+     </div>
     </div>
 
 
@@ -31,7 +37,7 @@
 
   </div>
 
-  
+
 </body>
 
 
@@ -42,12 +48,28 @@
 </script>
 
 <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        });
-        calendar.render();
-      });
+let ec = new EventCalendar(document.getElementById('calendar'), {
+    view: 'dayGridMonth',
+    dateClick: setDate,
+    events: [
+        // your list of events
+    ],
+});
+
+function setDate(info){
+  console.log(info)
+}
 </script>
+
+<style>
+  #calendar {
+    width: 100%;
+  }
+
+  .calendar-parent {
+    display: block;
+    margin: 4rem 2rem;
+    transform: scale(0.8);
+  }
+</style>
 </html>
