@@ -13,10 +13,10 @@ async function updateSearch(){
   }
   let query
   if(inp.value == ""){
-    query = `select name from person order by name desc`
+    query = `select name from person order by name asc`
   }
   else {
-    query = `select name from person where name like "%${searchValue}%" order by name asc collate localized`
+    query = `select person.name, group_concat(band.name) as bands from person join band_member on person.id = band_member.member_id join band on band.id = band_member.band_id where name like "%${searchValue}%" order by person.name asc collate localized`
   }
 
   people = await window.db.query(query)
@@ -24,9 +24,13 @@ async function updateSearch(){
   artistEl.innerHTML = ''
   for(let artist of people){
     let el = document.createElement('div')
+    let bands = artist.bands.split(',').map(band => {
+      `<span class="band-name">${band}</span>`
+    }).join('')
     el.classList.add('artist')
     el.innerHTML = `    
-      <span class="video-date">${artist.name}</span>
+      <span class="artist-name">${artist.name}</span>
+      ${bands}
     `
     artistEl.appendChild(el)
   }

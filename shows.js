@@ -1,5 +1,7 @@
 let searchLastUpdate = 0;
 let targetMaxInterval = 150;
+let lastQuery = ''
+let videos;
 
 async function updateSearch(){
   if(!window.db){
@@ -18,9 +20,10 @@ async function updateSearch(){
   else {
     query = `select * from video_search where video_search match "${searchValue}" order by rank, date desc`
   }
-
-  videos = await window.db.query(query)
-  videoEl = document.querySelector('.videos')
+  if(query != lastQuery){
+    videos = await window.db.query(query)
+  }
+  let videoEl = document.querySelector('.videos')
   videoEl.innerHTML = ''
   for(let video of videos){
     let el = document.createElement('div')
