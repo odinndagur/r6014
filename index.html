@@ -6,66 +6,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='https://fonts.googleapis.com/css?family=Faustina' rel='stylesheet'>
   <link rel="stylesheet" href="style.css">
-  <title>R6014</title>
-  <body>
+  <!-- <script async defer src="./dist/bundle.js"></script> -->
+  <title>Shows</title>
+</head>
+<body onload="updateSearch()">
 
   <div class="container">
     <header class="header">
         <div id="heading">R6014</div>
-        <nav>
-          <a href="./" class="current-navitem">home</a>
-          <a href="shows.html">shows</a>
+        <!-- <nav>
+          <a href="./">home</a>
+          <a href="shows.html" class="current-navitem">shows</a>
           <a href="artists.html">artists</a>        
-        </nav>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@0.15.3/event-calendar.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@0.15.3/event-calendar.min.js"></script>
+        </nav> -->
+        <div id="video-search">
+        <input type="text" oninput="updateSearch()" onsubmit="updateSearch()" id="search-input">
+        </div>
       </header>
 
     <div class="body">
-
-     <div class="calendar-parent">
-       <div id="calendar"></div>
-     </div>
+      <div class="videos"></div>
+      <div class="current-video"></div>
     </div>
-
-
-
 
   </div>
 
-
+  
 </body>
 
 
-<script type="module" src="initDB.js">
-</script>
 
-<script async defer src="index.js">
-</script>
 
-<script>
-let ec = new EventCalendar(document.getElementById('calendar'), {
-    view: 'dayGridMonth',
-    dateClick: setDate,
-    events: [
-        // your list of events
-    ],
-});
 
-function setDate(info){
-  console.log(info)
-}
-</script>
+<!-- <script type="module">
+  import { load } from "./dist/sql-httpvfs.js";
+  window.loadDB = load
 
-<style>
-  #calendar {
-    width: 100%;
-  }
+  window.loadDB('/r6014search/r6014-fts.sqlite3').then(db => {
+    window.db = db.db
+  })
+</script> -->
 
-  .calendar-parent {
-    display: block;
-    margin: 4rem 2rem;
-    transform: scale(0.8);
-  }
-</style>
+<script type="module" src="initDB.js"></script>
+
+<script async defer src="shows.js"></script>
 </html>
